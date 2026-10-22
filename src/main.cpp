@@ -66,45 +66,8 @@ void vTaskButton(void *parametre) {
 
 // TACHE 3 : commande des DEL
 
-void vTaskLed(void *parametre) {
 
-   EventBits_t bits;
-    for (;;) {
-       bits = xEventGroupWaitBits(
-            groupe,
-            TOUS_BITS,
-            pdFALSE,  // Ne pas effacer les bits
-            pdFALSE,  // Attendre au moins un bit
-            0         // Ne pas bloquer
-        );
-
-        // On pourrait utiliser xEventGroupGetBits() qui est plus direct et simple ici
-
-        bool potActif = (bits & POT_BIT) != 0;
-
-        bool boutonActif = (bits & BOUTON_BIT) != 0;
-
-        if (potActif && boutonActif) {
-            // Les deux entrees actives
-            verte.on();
-            rouge.off();
-        }
-        else if (potActif != boutonActif) {  // else if (potActif || boutonActif) {
-            // Une seule entree active
-            verte.off();
-            rouge.on();
-        }
-        else {
-            // Aucune entree active
-            verte.off();
-            rouge.off();
-        }
-
-        vTaskDelay(pdMS_TO_TICKS(20));
-    }
-}
-
-/* void vTaskLed(void *param) {
+ void vTaskLed(void *param) {
 
     Del *led = (Del *)param;
 
@@ -135,9 +98,9 @@ void vTaskLed(void *parametre) {
             led->off();
         }
 
-                vTaskDelay(pdMS_TO_TICKS(20));
+        vTaskDelay(pdMS_TO_TICKS(20));
     }
-} */
+} 
 
 void setup() {
 
@@ -179,7 +142,16 @@ void setup() {
         vTaskLed,
         "DEL",
         2048,
-        NULL,
+        &rouge,
+        1,
+        NULL
+    );
+
+     xTaskCreate(
+        vTaskLed,
+        "DEL",
+        2048,
+        &verte,
         1,
         NULL
     );
