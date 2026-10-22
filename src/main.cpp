@@ -104,41 +104,6 @@ void vTaskLed(void *parametre) {
     }
 }
 
-/* void vTaskLed(void *param) {
-
-    Del *led = (Del *)param;
-
-    for (;;) {
-
-        EventBits_t bits = xEventGroupWaitBits(
-            groupe,
-            POT_BIT | BOUTON_BIT,  // Bits attendus
-            pdFALSE,               // Ne pas effacer les bits
-            pdFALSE,                // Ne pas attendre tous les deux bits
-            0                       // Ne pas attendre / bloquer
-        );
-
-        bool potActif = (bits & POT_BIT) != 0;
-        bool boutonActif = (bits & BOUTON_BIT) != 0;
-
-        bool etat;
-
-        if (strcmp(led->getName(), VERTE) == 0) {
-            etat = potActif && boutonActif;
-        } else {
-            etat = potActif != boutonActif;
-        }
-
-        if (etat) {
-            led->on();
-        } else {
-            led->off();
-        }
-
-                vTaskDelay(pdMS_TO_TICKS(20));
-    }
-} */
-
 void setup() {
 
     // Initialiser les objets
